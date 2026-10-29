@@ -3,7 +3,7 @@
 <p align="center">
   <strong>A modular desktop productivity dashboard for Windows.</strong>
   <br />
-  Tasks, notes, focus sessions, calendar events, system metrics, and music â€” in one customizable workspace.
+  Tasks, notes, focus sessions, calendar events, system metrics, and music — in one customizable workspace.
 </p>
 
 <p align="center">
@@ -339,4 +339,5 @@ See [`LICENSE`](LICENSE) for the license terms. The repository should include th
   <br />
   A desktop workspace for bringing everyday productivity tools together.
 </p>
+
 
