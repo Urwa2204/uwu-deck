@@ -3,7 +3,7 @@
 <p align="center">
   <strong>A modular desktop productivity dashboard for Windows.</strong>
   <br />
-  Tasks, notes, focus sessions, calendar events, system metrics, and music — in one customizable workspace.
+  Tasks, notes, focus sessions, calendar events, system metrics, and music in one customizable workspace.
 </p>
 
 <p align="center">
@@ -23,321 +23,233 @@
 
 ## Overview
 
-**uwu-deck** is a Windows desktop productivity dashboard built with Electron, React, and TypeScript. It brings frequently used personal tools into one desktop application, reducing the need to switch between separate utilities for task management, note-taking, time tracking, and system monitoring.
+uwu-deck is a Windows desktop productivity application built with Electron, React, and TypeScript. It brings everyday productivity tools into a customizable dashboard, combining task management, quick notes, focus sessions, calendar events, system monitoring, and music playback in one application.
 
-The project combines a modular widget interface with local data persistence and native desktop integration. It is designed to work without user accounts or a cloud backend, keeping application data on the local machine.
-
-Rather than building a collection of disconnected tools, uwu-deck focuses on making everyday workflows accessible through one consistent interface.
-
-### Design principles
-
-- **Local-first:** Personal application data is stored on the user's machine.
-- **Modular:** Widgets can be shown, hidden, and reordered through Settings.
-- **Desktop-native:** Tray behavior, keyboard shortcuts, window management, and launch-at-login settings integrate the dashboard into the Windows workflow.
-- **Security-conscious:** The renderer uses a restricted preload bridge instead of unrestricted Node.js access.
-- **Practical:** Features are designed around everyday tasks, not just visual presentation.
+The project emphasizes modular UI components, local data persistence, a secure boundary between the Electron main process and renderer, and automated testing.
 
 ## Features
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>âœ“ Task management</h3>
-      Create, edit, complete, and delete tasks. Set priorities and due dates, filter tasks, track progress, and identify overdue items.
-    </td>
-    <td width="50%" valign="top">
-      <h3>âœŽ Quick notes</h3>
-      Create and edit notes inline, search content, pin important notes, and automatically save changes with debounced autosaving.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>â—· Focus timer</h3>
-      Start, pause, resume, and reset focus sessions. Use focus/break presets, review daily totals and session history, and receive desktop notifications with an in-app fallback.
-    </td>
-    <td width="50%" valign="top">
-      <h3>â–¦ Calendar</h3>
-      Navigate a monthly calendar, highlight today and the selected date, manage events, and view upcoming items.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>âŒ System monitor</h3>
-      Display real CPU, memory, disk, and uptime information using `systeminformation`. Unavailable metrics are identified instead of being replaced with fabricated values.
-    </td>
-    <td width="50%" valign="top">
-      <h3>â™« Music</h3>
-      Search YouTube and YouTube Music in the default browser, manage validated music shortcuts, and play local audio files using a built-in player.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>â–£ Desktop integration</h3>
-      Custom title bar, system tray, hide-to-tray behavior, `Ctrl+Alt+D` show/hide shortcut, remembered window geometry, single-instance behavior, and optional always-on-top mode.
-    </td>
-    <td width="50%" valign="top">
-      <h3>âš™ Personalization</h3>
-      Configure launch at login, tray behavior, reduced motion, timer defaults, monitoring intervals, and widget visibility and order. Export or import supported application data as JSON.
-    </td>
-  </tr>
-</table>
+### Task Management
 
-## Interface and visual direction
+- Create, edit, complete, and delete tasks.
+- Assign priorities and due dates.
+- Filter tasks and track completion progress.
+- Identify overdue tasks.
 
-The interface follows a restrained futuristic aesthetic, combining dark surfaces with espresso brown, platinum silver, and pale lavender accents.
+### Quick Notes
 
-| Color | Hex | Purpose |
-|---|---|---|
-| Espresso | `#6F4E37` | Warm accent and visual identity |
-| Platinum | `#E5E4E2` | Light surfaces and contrast |
-| Pale lavender | `#E6E0F0` | Secondary accents and visual softness |
+- Create, edit, search, pin, and delete notes.
+- Automatically save edits with debouncing.
+- Display the last-edited time.
+- Confirm note deletion before removing it.
 
-Animations are implemented with the `motion` package, with a reduced-motion setting for users who prefer less animation.
+### Focus Timer
 
-## Technology stack
+- Start, pause, resume, and reset focus sessions.
+- Use configurable focus and break durations.
+- Choose from 25/5, 50/10, and 90/15 presets.
+- Track daily focus totals and session history.
+- Receive desktop notifications, with an in-app fallback.
 
-The project uses a combination of desktop, frontend, system-integration, and testing tools.
+### Calendar
 
-| Technology | Purpose in uwu-deck |
+- View events in a monthly calendar.
+- Highlight the current day and selected date.
+- Create, edit, and delete events.
+- Review upcoming events.
+
+### System Monitor
+
+- Display CPU and memory usage, system-drive disk information, and uptime.
+- Retrieve system metrics through `systeminformation`.
+- Represent unavailable measurements as unavailable rather than inventing values.
+
+### Music
+
+- Search YouTube and YouTube Music in the default browser.
+- Save and manage validated music shortcuts.
+- Reorder and remove shortcuts.
+- Play local audio files with playback controls, seeking, volume adjustment, and playlist navigation.
+
+YouTube playback takes place in the browser. The application does not directly control browser playback or display its track metadata.
+
+### Desktop Integration
+
+- Custom application title bar.
+- System tray integration and hide-to-tray behavior.
+- Global `Ctrl+Alt+D` shortcut to show or hide the application.
+- Always-on-top option.
+- Remember window size and position.
+- Single-instance application behavior.
+
+### Settings and Data Management
+
+- Configure launch-at-login and tray behavior.
+- Toggle always-on-top and reduced-motion settings.
+- Configure timer defaults and system-monitor refresh intervals.
+- Show, hide, and reorder dashboard widgets.
+- Export and import application data as JSON.
+
+## Technology Stack
+
+| Technology | Purpose |
 |---|---|
-| **Electron** | Packages the web-based interface as a Windows desktop application and provides access to desktop capabilities. |
-| **React 18** | Builds the dashboard interface and reusable widget components. |
-| **TypeScript** | Adds static typing to application logic, shared interfaces, and desktop API contracts. |
-| **electron-vite** | Coordinates development and production builds for the Electron main process, preload script, and renderer. |
-| **Vite** | Powers the frontend development and build pipeline. |
-| **Lucide React** | Supplies consistent interface icons. |
-| **Motion** | Provides interface animations and animated text effects. |
-| **date-fns** | Supports date formatting and calendar-related operations. |
-| **systeminformation** | Retrieves system metrics for the monitoring widget. |
-| **Vitest** | Runs unit and component tests. |
-| **React Testing Library** | Tests interface behavior from the user's perspective. |
-| **Playwright** | Automates end-to-end checks against the desktop application. |
-| **electron-builder** | Packages the application into a Windows NSIS installer. |
-
-### Why this stack?
-
-Electron allows the application to combine a familiar React-based UI with desktop capabilities. React supports reusable widgets, while TypeScript helps keep shared contracts and application logic easier to maintain.
-
-The project uses dedicated tools for system metrics, date handling, animation, and testing rather than implementing every capability from scratch. This makes the codebase easier to extend and gives individual features a clearer responsibility.
+| Electron | Windows desktop runtime and operating-system integration |
+| React 18 | Component-based user interface |
+| TypeScript | Static typing across the application |
+| Vite | Renderer development and bundling |
+| electron-vite | Electron application development and build tooling |
+| Node.js | Main-process runtime |
+| systeminformation | System metrics |
+| Vitest | Unit and logic testing |
+| Playwright | End-to-end testing |
+| electron-builder | Windows installer packaging |
 
 ## Architecture
 
-uwu-deck separates the operating-system-facing application logic from the UI.
+The application separates operating-system integration, renderer communication, shared logic, and the React interface.
 
 ```text
 uwu-deck/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ main/
-â”‚   â”‚   â”œâ”€â”€ Application lifecycle
-â”‚   â”‚   â”œâ”€â”€ Window and tray management
-â”‚   â”‚   â”œâ”€â”€ IPC handlers
-â”‚   â”‚   â”œâ”€â”€ Local persistence
-â”‚   â”‚   â””â”€â”€ System metrics
-â”‚   â”‚
-â”‚   â”œâ”€â”€ preload/
-â”‚   â”‚   â””â”€â”€ Restricted desktop API bridge
-â”‚   â”‚
-â”‚   â”œâ”€â”€ shared/
-â”‚   â”‚   â””â”€â”€ Shared types and pure logic
-â”‚   â”‚
-â”‚   â””â”€â”€ renderer/
-â”‚       â”œâ”€â”€ Dashboard shell
-â”‚       â”œâ”€â”€ Widgets
-â”‚       â”œâ”€â”€ Components
-â”‚       â”œâ”€â”€ Hooks
-â”‚       â””â”€â”€ Styles
-â”‚
-â””â”€â”€ tests/
-    â”œâ”€â”€ Unit tests
-    â”œâ”€â”€ Component tests
-    â””â”€â”€ End-to-end tests
+|-- src/
+|   |-- main/           # Electron main process, IPC, storage, system metrics
+|   |-- preload/        # Secure API exposed to the renderer
+|   |-- shared/         # Shared types and pure utility logic
+|   `-- renderer/       # React interface, widgets, components, hooks, styles
+|-- tests/              # Automated tests
+|-- docs/
+|   `-- screenshots/    # Application screenshots
+|-- package.json
+|-- package-lock.json
+`-- README.md
 ```
 
-### Main process
+### Main Process
 
-The Electron main process owns application lifecycle, window management, tray integration, keyboard shortcuts, inter-process communication (IPC), persistent storage, and system metric retrieval.
+The Electron main process manages the application window, tray, global shortcut, inter-process communication, persistent storage, and system metrics.
 
-### Preload bridge
+### Preload Layer
 
-The preload script exposes a deliberately limited API through `contextBridge`. The renderer accesses desktop functionality through `window.deck` instead of receiving unrestricted access to Node.js.
+The preload script exposes a limited application API through `contextBridge`. The renderer uses `window.deck` instead of accessing Node.js or Electron APIs directly.
 
 ### Renderer
 
-The React renderer contains the dashboard shell and individual widgets. This separation makes the UI easier to maintain without giving every component direct access to operating-system capabilities.
+The React renderer contains the dashboard shell, individual widgets, reusable components, hooks, and styling.
 
-### Shared logic
+### Shared Logic
 
-The shared layer contains reusable types and pure logic, including URL validation and focus-timer calculations. Keeping this logic separate makes it easier to test independently of the interface.
+Shared modules contain types and reusable logic that can be tested independently of the UI.
 
-## Security architecture
+## Security
 
-Security is an important part of a desktop application because the renderer and the operating system have different levels of access.
+The application uses several Electron security measures:
 
-The current implementation includes the following safeguards:
+- Context isolation enabled.
+- Node integration disabled in the renderer.
+- Sandbox enabled.
+- A restrictive Content Security Policy.
+- Navigation restrictions and denial of unapproved new windows.
+- Validated IPC payloads and an allowlist of permitted data keys.
+- IPC sender validation in the main process.
+- External links restricted to approved HTTPS YouTube hosts.
+- Notification permission granted only where required.
 
-- `contextIsolation: true`
-- `nodeIntegration: false`
-- `sandbox: true`
-- A Content Security Policy (CSP)
-- Navigation restrictions and denial of new windows
-- An explicit preload API rather than unrestricted renderer access
-- IPC sender checks and payload validation in the main process
-- Whitelisted data keys for IPC operations
-- HTTPS YouTube-host restrictions for external music links
-- A limited notification permission model
+These controls reduce exposure between the renderer and the operating system. They should not be interpreted as a guarantee that the application is free from security vulnerabilities.
 
-These controls reduce unnecessary access and help establish a clear boundary between the UI and desktop functionality. They do not guarantee that the application is vulnerability-free; Electron and its dependencies still require security updates and review.
+## Data Persistence
 
-## Local data and persistence
-
-The application stores its JSON data files in:
+Application data is stored locally under:
 
 ```text
-%APPDATA%\uwu-deck\data\
+%APPDATA%\uwu-deck\data
 ```
 
-The persistence implementation includes:
+The persistence layer uses separate JSON files for data types and includes schema versioning.
 
-- Separate JSON files for different data types
-- Schema-versioned data
-- Atomic writes using a temporary file followed by a rename
-- Corruption recovery that preserves a backup of the affected file
-- Import validation before imported data is applied
-- A pre-import backup stored under `data\backups`
-- Debounced autosaving, with changes flushed before application shutdown
+- Writes use a temporary file followed by a rename.
+- Corrupted data files are backed up before the application falls back to empty data.
+- Imports are validated before being applied.
+- Pre-import data backups are retained in the `data\backups` directory.
+- Debounced autosave reduces unnecessary writes, with pending changes flushed before normal application shutdown.
 
-The application is designed to work without a cloud account or application-specific cloud backend.
+### Focus Timer Behavior
 
-**Local-first does not mean automatically encrypted.** Users should still protect their Windows account and make their own backups of important information.
+The timer tracks elapsed time using timestamps and accumulated milliseconds rather than relying only on interval ticks. A running session can account for elapsed wall-clock time while the application is closed. Paused sessions remain paused after restart, and sessions whose scheduled end time has passed can be marked completed.
 
-### Focus timer reliability
-
-The focus timer uses timestamp-based calculations with `accumulatedMs` and `startedAt` instead of relying only on repeated interval ticks.
-
-This approach helps avoid timer drift. Paused time is excluded from elapsed time, and running sessions continue to account for wall-clock time while the app is closed.
-
-On restart, a paused session remains paused with its recorded elapsed time. A running session continues to count against the wall clock, and a session whose end time has passed is recorded as completed.
-
-## Getting started
+## Getting Started
 
 ### Prerequisites
 
-- Windows 10 or Windows 11
-- Node.js compatible with the installed Electron/Vite toolchain
-- npm
-- Git
+Install the following:
 
-The existing development environment used Node.js `22.14.0` and npm `10.9.2`.
+- Node.js and npm.
+- Git.
+- Windows 10 or Windows 11 for the intended desktop environment.
 
-### 1. Clone the repository
+### Installation
 
-```powershell
+Clone the repository and enter the project directory:
+
+```bash
 git clone https://github.com/Urwa2204/uwu-deck.git
 cd uwu-deck
-```
-
-Replace `YOUR_USERNAME` with the GitHub account hosting the repository.
-
-### 2. Install dependencies
-
-```powershell
 npm install
 ```
 
-### 3. Start the development app
+Start the development environment:
 
-```powershell
+```bash
 npm run dev
 ```
 
-This starts the development environment with hot reload.
+Available scripts depend on the current `package.json`. The following commands were used during project validation:
 
-### 4. Run quality checks
-
-```powershell
+```bash
 npm run typecheck
 npm run lint
 npm test
-```
-
-### 5. Run end-to-end tests
-
-```powershell
 npm run test:e2e
-```
-
-This command builds the application and runs the Playwright end-to-end suite against the desktop app.
-
-### 6. Build and package
-
-Build the application:
-
-```powershell
 npm run build
-```
-
-Create the Windows installer:
-
-```powershell
 npm run dist
 ```
 
-The packaged application and installer are generated under `dist/`.
+The distribution command builds the packaged Windows application and installer using the configured electron-builder setup.
 
 ## Testing
 
-At the last verified development checkpoint, the project passed:
+The project has been validated with the following checks:
 
-| Check | Previously verified result |
+| Check | Command |
 |---|---|
-| TypeScript type checking | Passed |
-| ESLint | Passed |
-| Vitest | 24 tests across 6 files passed |
-| Playwright | 5 end-to-end tests passed |
-| Production build | Passed |
-| Windows installer packaging | Passed |
+| TypeScript | `npm run typecheck` |
+| Linting | `npm run lint` |
+| Unit tests | `npm test` |
+| End-to-end tests | `npm run test:e2e` |
+| Production build | `npm run build` |
+| Windows packaging | `npm run dist` |
 
-The end-to-end checks covered renderer isolation and the exposed bridge, task persistence across app restarts, real system-monitor percentages, rejection of non-YouTube music links, and window controls.
+The previously recorded baseline passed 24 unit tests across six test files and five Playwright end-to-end tests. Re-run the commands against the current checkout to verify the present state.
 
-These are results from the tested checkpoint, not a guarantee that future changes will pass. Run the checks again after making changes.
+## Known Limitations
 
-## Known limitations
-
-- YouTube and YouTube Music searches open in the default browser. The application does not control browser playback or retrieve track metadata.
-- Local audio playback supports formats available through Chromium, including MP3, WAV, OGG, FLAC, M4A/AAC, and Opus, subject to codec support.
-- Local audio file selections are machine-specific and are not included in JSON export/import.
+- YouTube and YouTube Music open in the default browser; playback is not controlled by the application.
+- Local audio file paths are specific to the current machine and are not portable through JSON export and import.
 - Google Calendar synchronization is not implemented.
-- CPU temperature is not available in the current system-monitor implementation and is displayed as unavailable.
-- The Windows installer is unsigned, so SmartScreen may display a warning.
-- The application has not undergone an independent security audit.
+- CPU temperature monitoring is not currently provided.
+- Unsigned Windows installers may trigger Microsoft SmartScreen warnings.
 
+## Roadmap
 
-## Development commands
+Potential areas for future development include:
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start development mode |
-| `npm run build` | Build the application |
-| `npm run start` | Preview the built application |
-| `npm run typecheck` | Check TypeScript types |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format source files with Prettier |
-| `npm test` | Run Vitest tests |
-| `npm run test:e2e` | Build and run Playwright end-to-end tests |
-| `npm run dist` | Build and package the Windows installer |
+- Optional calendar provider integration.
+- Improved data backup and recovery workflows.
+- Additional dashboard customization.
+- Expanded automated testing.
+- Code signing and release automation for Windows.
 
 ## License
 
-This project is intended to use the MIT License.
+This project is distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
-See [`LICENSE`](LICENSE) for the license terms. The repository should include the complete MIT license text before publication.
-
----
-
-<p align="center">
-  <strong>uwu-deck</strong>
-  <br />
-  A desktop workspace for bringing everyday productivity tools together.
-</p>
-
-
+Copyright (c) 2026 Urwa
